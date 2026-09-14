@@ -37,6 +37,8 @@
 
         confirmingClient = null;
 
+        console.log('[clients] deleting record', client.id);
+
         router.delete(toUrl(destroy(client.id)), {
             preserveScroll: true,
         });

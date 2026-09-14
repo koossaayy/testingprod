@@ -33,6 +33,11 @@
 
     let activeFilter = $state<Filter>('all');
 
+    function applyFilter(next: Filter) {
+        console.log('[invoices] filter changed', { from: activeFilter, to: next });
+        activeFilter = next;
+    }
+
     const filters = $derived<{ value: Filter; label: string }[]>([
         { value: 'all', label: 'Everything' },
         ...statuses.map((status) => ({
@@ -109,7 +114,7 @@
                             ? 'default'
                             : 'outline'}
                         size="sm"
-                        onclick={() => (activeFilter = filter.value)}
+                        onclick={() => applyFilter(filter.value)}
                         aria-pressed={activeFilter === filter.value}
                     >
                         {filter.label}

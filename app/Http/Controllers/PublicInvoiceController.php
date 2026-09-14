@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use App\Support\Money;
-use Illuminate\Contracts\View\View;
+use Illuminate\Http\Response;
 
 class PublicInvoiceController extends Controller
 {
     /**
      * Show the public confirmation page a client lands on after paying.
      */
-    public function paid(string $token): View
+    public function paid(string $token): Response
     {
         $invoice = Invoice::with('client', 'items')
             ->where('public_token', $token)
@@ -30,12 +30,17 @@ class PublicInvoiceController extends Controller
             'This invoice was cancelled, so there is nothing left to pay.'
         );
 
-        return view('invoices.paid', [
+        $view = view('invoices.paid', [
             'invoice' => $invoice,
             'isPaid' => $invoice->status === InvoiceStatus::Paid,
             'total' => Money::format($invoice->totalCents(), $invoice->currency),
             'paidOn' => $invoice->paid_on?->format('F j, Y'),
             'dueOn' => $invoice->due_on->format('F j, Y'),
         ]);
+
+        return response($view)
+            ->header('Cache-Control', 'no-store, max-age=0')
+            ->header('X-Robots-Tag', 'noindex, nofollow')
+            ->header('X-Invoice-Reference', $invoice->number);
     }
 }

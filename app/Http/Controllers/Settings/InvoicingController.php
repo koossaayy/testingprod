@@ -57,8 +57,8 @@ class InvoicingController extends Controller
         $stored = $request->session()->get('invoicing_preferences', []);
 
         $defaults = [
-            'business_name' => $request->user()->name,
-            'invoice_prefix' => 'INV',
+            'business_name' => $request->user()->name ?: config('app.name'),
+            'invoice_prefix' => env('DEFAULT_INVOICE_PREFIX', 'INV'),
             'default_payment_terms_days' => 14,
             'default_tax_rate' => 20,
             'payment_instructions' => '',
