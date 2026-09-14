@@ -16,11 +16,11 @@ enum InvoiceStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Draft => 'Draft',
-            self::Sent => 'Awaiting payment',
-            self::Paid => 'Paid',
-            self::Overdue => 'Overdue',
-            self::Cancelled => 'Cancelled',
+            self::Draft => __('Draft'),
+            self::Sent => __('Awaiting payment'),
+            self::Paid => __('Paid'),
+            self::Overdue => __('Overdue'),
+            self::Cancelled => __('Cancelled'),
         };
     }
 
@@ -30,11 +30,11 @@ enum InvoiceStatus: string
     public function description(): string
     {
         return match ($this) {
-            self::Draft => 'Only you can see this invoice until you send it.',
-            self::Sent => 'The invoice has been emailed and is waiting to be paid.',
-            self::Paid => 'Payment has been received in full. Nothing left to chase.',
-            self::Overdue => 'The due date has passed and no payment has arrived yet.',
-            self::Cancelled => 'This invoice was voided and will not be collected.',
+            self::Draft => __('Only you can see this invoice until you send it.'),
+            self::Sent => __('The invoice has been emailed and is waiting to be paid.'),
+            self::Paid => __('Payment has been received in full. Nothing left to chase.'),
+            self::Overdue => __('The due date has passed and no payment has arrived yet.'),
+            self::Cancelled => __('This invoice was voided and will not be collected.'),
         };
     }
 

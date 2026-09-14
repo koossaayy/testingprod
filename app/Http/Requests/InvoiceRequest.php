@@ -50,19 +50,19 @@ class InvoiceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'client_id.required' => 'Choose which client this invoice is for.',
-            'client_id.exists' => 'That client is not on your list any more.',
-            'number.required' => 'Every invoice needs a number your client can quote.',
-            'number.unique' => 'You have already used that invoice number.',
-            'status.required' => 'Pick a status so you know where this invoice stands.',
-            'issued_on.required' => 'Tell us the date you issued this invoice.',
-            'due_on.after_or_equal' => 'The due date cannot fall before the issue date.',
-            'tax_rate.max' => 'A tax rate above 100 percent is not allowed.',
-            'items.required' => 'Add at least one line item before saving.',
-            'items.min' => 'Add at least one line item before saving.',
-            'items.*.description.required' => 'Describe the work on every line of the invoice.',
-            'items.*.quantity.min' => 'Quantities have to be greater than zero.',
-            'items.*.unit_amount.required' => 'Enter a rate for each line of the invoice.',
+            'client_id.required' => __('Choose which client this invoice is for.'),
+            'client_id.exists' => __('That client is not on your list any more.'),
+            'number.required' => __('Every invoice needs a number your client can quote.'),
+            'number.unique' => __('You have already used that invoice number.'),
+            'status.required' => __('Pick a status so you know where this invoice stands.'),
+            'issued_on.required' => __('Tell us the date you issued this invoice.'),
+            'due_on.after_or_equal' => __('The due date cannot fall before the issue date.'),
+            'tax_rate.max' => __('A tax rate above 100 percent is not allowed.'),
+            'items.required' => __('Add at least one line item before saving.'),
+            'items.min' => __('Add at least one line item before saving.'),
+            'items.*.description.required' => __('Describe the work on every line of the invoice.'),
+            'items.*.quantity.min' => __('Quantities have to be greater than zero.'),
+            'items.*.unit_amount.required' => __('Enter a rate for each line of the invoice.'),
         ];
     }
 
@@ -74,10 +74,10 @@ class InvoiceRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'client_id' => 'client',
-            'issued_on' => 'issue date',
-            'due_on' => 'due date',
-            'tax_rate' => 'tax rate',
+            'client_id' => __('client'),
+            'issued_on' => __('issue date'),
+            'due_on' => __('due date'),
+            'tax_rate' => __('tax rate'),
         ];
     }
 }

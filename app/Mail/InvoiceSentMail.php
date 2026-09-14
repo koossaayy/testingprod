@@ -22,7 +22,7 @@ class InvoiceSentMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Invoice {$this->invoice->number} from {$this->invoice->user->name}",
+            subject: __('Invoice :number from :name', ['number' => $this->invoice->number, 'name' => $this->invoice->user->name]),
             metadata: [
                 'invoice_number' => $this->invoice->number,
             ],
