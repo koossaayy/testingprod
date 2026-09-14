@@ -1,0 +1,129 @@
+<script lang="ts">
+    import { Link, router } from '@inertiajs/svelte';
+    import Pencil from '@lucide/svelte/icons/pencil';
+    import Trash2 from '@lucide/svelte/icons/trash-2';
+    import ConfirmDialog from '@/components/ConfirmDialog.svelte';
+    import { Badge } from '@/components/ui/badge';
+    import { Button } from '@/components/ui/button';
+    import { toUrl } from '@/lib/utils';
+    import { destroy, edit } from '@/routes/clients';
+    import type { ClientRow } from '@/types';
+
+    let {
+        clients,
+    }: {
+        clients: ClientRow[];
+    } = $props();
+
+    let confirmingClient = $state<ClientRow | null>(null);
+
+    const confirmOpen = $derived(confirmingClient !== null);
+
+    /** Describe how many invoices a client has, in plain language. */
+    function invoiceSummary(client: ClientRow): string {
+        if (client.invoices_count === 0) {
+            return 'No invoices yet';
+        }
+
+        return `${client.invoices_count} ${client.invoices_count === 1 ? 'invoice' : 'invoices'}`;
+    }
+
+    function deleteClient() {
+        const client = confirmingClient;
+
+        if (!client) {
+            return;
+        }
+
+        confirmingClient = null;
+
+        router.delete(toUrl(destroy(client.id)), {
+            preserveScroll: true,
+        });
+    }
+</script>
+
+<div class="overflow-x-auto rounded-xl border">
+    <table class="w-full text-left text-sm">
+        <caption class="sr-only">
+            The people and companies you bill, with their payment terms.
+        </caption>
+        <thead class="border-b bg-muted/50 text-xs text-muted-foreground uppercase">
+            <tr>
+                <th scope="col" class="px-4 py-3 font-medium">Client</th>
+                <th scope="col" class="px-4 py-3 font-medium">Main contact</th>
+                <th scope="col" class="px-4 py-3 font-medium">Email</th>
+                <th scope="col" class="px-4 py-3 font-medium">Payment terms</th>
+                <th scope="col" class="px-4 py-3 font-medium">Invoices</th>
+                <th scope="col" class="px-4 py-3 text-right font-medium">
+                    <span class="sr-only">Actions</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="divide-y">
+            {#each clients as client (client.id)}
+                <tr class="hover:bg-muted/40">
+                    <td class="px-4 py-3 font-medium">
+                        <span>{client.name}</span>
+                        {#if client.is_archived}
+                            <Badge variant="outline" class="ml-2">Archived</Badge>
+                        {/if}
+                    </td>
+                    <td class="px-4 py-3 text-muted-foreground">
+                        {client.contact_name ?? 'No contact saved'}
+                    </td>
+                    <td class="px-4 py-3 text-muted-foreground">
+                        <a
+                            href={`mailto:${client.email}`}
+                            class="underline-offset-4 hover:underline"
+                            title={`Send an email to ${client.name}`}
+                        >
+                            {client.email}
+                        </a>
+                    </td>
+                    <td class="px-4 py-3 text-muted-foreground">
+                        {client.payment_terms_days} days
+                    </td>
+                    <td class="px-4 py-3 text-muted-foreground">
+                        {invoiceSummary(client)}
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex items-center justify-end gap-1">
+                            <Button variant="ghost" size="icon" asChild>
+                                {#snippet children(props)}
+                                    <Link
+                                        href={toUrl(edit(client.id))}
+                                        class={props.class}
+                                        aria-label={`Edit ${client.name}`}
+                                        title="Edit this client"
+                                    >
+                                        <Pencil class="size-4" />
+                                    </Link>
+                                {/snippet}
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                aria-label={`Delete ${client.name}`}
+                                title="Delete this client"
+                                onclick={() => (confirmingClient = client)}
+                            >
+                                <Trash2 class="size-4" />
+                            </Button>
+                        </div>
+                    </td>
+                </tr>
+            {/each}
+        </tbody>
+    </table>
+</div>
+
+<ConfirmDialog
+    open={confirmOpen}
+    title="Delete this client?"
+    description={`Deleting ${confirmingClient?.name ?? 'this client'} also removes every invoice you have raised for them. You cannot undo this.`}
+    confirmLabel="Delete client"
+    cancelLabel="Keep client"
+    onConfirm={deleteClient}
+    onCancel={() => (confirmingClient = null)}
+/>
