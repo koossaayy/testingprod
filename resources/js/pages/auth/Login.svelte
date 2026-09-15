@@ -1,7 +1,9 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     export const layout = {
-        title: 'Log in to your account',
-        description: 'Enter your email and password below to log in',
+        get title() { return get(_)('Log in to your account'); },
+        get description() { return get(_)('Enter your email and password below to log in'); },
     };
 </script>
 
@@ -30,7 +32,7 @@
     } = $props();
 </script>
 
-<AppHead title="Log in" />
+<AppHead title={$_('Log in')} />
 
 {#if status}
     <div class="mb-4 text-center text-sm font-medium text-green-600">
@@ -48,7 +50,7 @@
     {#snippet children({ errors, processing })}
         <div class="grid gap-6">
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email">{$_('Email address')}</Label>
                 <Input
                     id="email"
                     type="email"
@@ -62,10 +64,10 @@
 
             <div class="grid gap-2">
                 <div class="flex items-center justify-between">
-                    <Label for="password">Password</Label>
+                    <Label for="password">{$_('Password')}</Label>
                     {#if canResetPassword}
                         <TextLink href={request()} class="text-sm">
-                            Forgot your password?
+                            {$_('Forgot your password?')}
                         </TextLink>
                     {/if}
                 </div>
@@ -74,7 +76,7 @@
                     name="password"
                     required
                     autocomplete="current-password"
-                    placeholder="Password"
+                    placeholder={$_('Password')}
                 />
                 <InputError message={errors.password} />
             </div>
@@ -82,7 +84,7 @@
             <div class="flex items-center justify-between">
                 <Label for="remember" class="flex items-center space-x-3">
                     <Checkbox id="remember" name="remember" />
-                    <span>Remember me</span>
+                    <span>{$_('Remember me')}</span>
                 </Label>
             </div>
 
@@ -93,13 +95,13 @@
                 data-test="login-button"
             >
                 {#if processing}<Spinner />{/if}
-                Log in
+                {$_('Log in')}
             </Button>
         </div>
 
         <div class="text-center text-sm text-muted-foreground">
-            Don't have an account?
-            <TextLink href={register()}>Sign up</TextLink>
+            {$_('Don\'t have an account?')}
+            <TextLink href={register()}>{$_('Sign up')}</TextLink>
         </div>
     {/snippet}
 </Form>

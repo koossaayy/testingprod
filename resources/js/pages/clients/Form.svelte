@@ -1,10 +1,12 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     import { index } from '@/routes/clients';
 
     export const layout = {
         breadcrumbs: [
             {
-                title: 'Clients',
+                get title() { return get(_)('Clients'); },
                 href: index(),
             },
         ],
@@ -44,19 +46,19 @@
         is_archived: client?.is_archived ?? false,
     }));
 
-    const pageTitle = $derived(isEditing ? 'Edit client' : 'Add a client');
+    const pageTitle = $derived(isEditing ? $_('Edit client') : $_('Add a client'));
 
     const pageDescription = $derived(
         isEditing
-            ? 'Update the details we print on every invoice for this client.'
-            : 'Tell us who you are billing. You can change any of this later.',
+            ? $_('Update the details we print on every invoice for this client.')
+            : $_('Tell us who you are billing. You can change any of this later.'),
     );
 
     /** Explain the payment terms in the same words you would use out loud. */
     const termsHint = $derived(
         form.payment_terms_days === 0
-            ? 'Invoices for this client will be marked due on the day you issue them.'
-            : `Invoices will fall due ${form.payment_terms_days} days after you issue them.`,
+            ? $_('Invoices for this client will be marked due on the day you issue them.')
+            : $_('Invoices will fall due {0} days after you issue them.', { values: { 0: form.payment_terms_days } }),
     );
 
     function submit(event: SubmitEvent) {
@@ -82,34 +84,33 @@
 
     <form onsubmit={submit} class="max-w-2xl space-y-6">
         <div class="grid gap-2">
-            <Label for="name">Client name</Label>
+            <Label for="name">{$_('Client name')}</Label>
             <Input
                 id="name"
                 bind:value={form.name}
                 required
-                placeholder="Northwind Coffee Roasters"
+                placeholder={$_('Northwind Coffee Roasters')}
                 aria-describedby="name-hint"
             />
             <p id="name-hint" class="text-xs text-muted-foreground">
-                Use the legal name if you invoice a company, so their finance
-                team can match it to their records.
+                {$_('Use the legal name if you invoice a company, so their finance team can match it to their records.')}
             </p>
             <InputError message={form.errors.name} />
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
             <div class="grid gap-2">
-                <Label for="contact_name">Main contact</Label>
+                <Label for="contact_name">{$_('Main contact')}</Label>
                 <Input
                     id="contact_name"
                     bind:value={form.contact_name}
-                    placeholder="Who signs off the invoice?"
+                    placeholder={$_('Who signs off the invoice?')}
                 />
                 <InputError message={form.errors.contact_name} />
             </div>
 
             <div class="grid gap-2">
-                <Label for="email">Billing email</Label>
+                <Label for="email">{$_('Billing email')}</Label>
                 <Input
                     id="email"
                     type="email"
@@ -123,53 +124,53 @@
 
         <div class="grid gap-4 sm:grid-cols-2">
             <div class="grid gap-2">
-                <Label for="phone">Phone number</Label>
+                <Label for="phone">{$_('Phone number')}</Label>
                 <Input
                     id="phone"
                     bind:value={form.phone}
-                    placeholder="Optional, handy for late payments"
+                    placeholder={$_('Optional, handy for late payments')}
                 />
                 <InputError message={form.errors.phone} />
             </div>
 
             <div class="grid gap-2">
-                <Label for="company_number">Company registration number</Label>
+                <Label for="company_number">{$_('Company registration number')}</Label>
                 <Input
                     id="company_number"
                     bind:value={form.company_number}
-                    placeholder="Shown on the invoice footer"
+                    placeholder={$_('Shown on the invoice footer')}
                 />
                 <InputError message={form.errors.company_number} />
             </div>
         </div>
 
         <div class="grid gap-2">
-            <Label for="billing_address">Billing address</Label>
+            <Label for="billing_address">{$_('Billing address')}</Label>
             <textarea
                 id="billing_address"
                 bind:value={form.billing_address}
                 rows="3"
                 class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                placeholder="Street, city and postcode as it should appear on the invoice"
+                placeholder={$_('Street, city and postcode as it should appear on the invoice')}
             ></textarea>
             <InputError message={form.errors.billing_address} />
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
             <div class="grid gap-2">
-                <Label for="currency">Currency</Label>
+                <Label for="currency">{$_('Currency')}</Label>
                 <Input
                     id="currency"
                     bind:value={form.currency}
                     maxlength={3}
-                    placeholder="USD"
-                    title="Three letter currency code, for example USD or EUR"
+                    placeholder={$_('USD')}
+                    title={$_('Three letter currency code, for example USD or EUR')}
                 />
                 <InputError message={form.errors.currency} />
             </div>
 
             <div class="grid gap-2">
-                <Label for="payment_terms_days">Payment terms in days</Label>
+                <Label for="payment_terms_days">{$_('Payment terms in days')}</Label>
                 <Input
                     id="payment_terms_days"
                     type="number"
@@ -183,16 +184,16 @@
         </div>
 
         <div class="grid gap-2">
-            <Label for="notes">Private notes</Label>
+            <Label for="notes">{$_('Private notes')}</Label>
             <textarea
                 id="notes"
                 bind:value={form.notes}
                 rows="3"
                 class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                placeholder="Anything worth remembering before the next project"
+                placeholder={$_('Anything worth remembering before the next project')}
             ></textarea>
             <p class="text-xs text-muted-foreground">
-                Only you can see these notes. They never appear on an invoice.
+                {$_('Only you can see these notes. They never appear on an invoice.')}
             </p>
             <InputError message={form.errors.notes} />
         </div>
@@ -202,13 +203,12 @@
                 <Checkbox
                     id="is_archived"
                     bind:checked={form.is_archived}
-                    aria-label="Archive this client"
+                    aria-label={$_('Archive this client')}
                 />
                 <div class="grid gap-1">
-                    <Label for="is_archived">Archive this client</Label>
+                    <Label for="is_archived">{$_('Archive this client')}</Label>
                     <p class="text-xs text-muted-foreground">
-                        Archived clients stay in your history but stop showing up
-                        when you create a new invoice.
+                        {$_('Archived clients stay in your history but stop showing up when you create a new invoice.')}
                     </p>
                 </div>
             </div>
@@ -216,11 +216,11 @@
 
         <div class="flex items-center gap-3">
             <Button type="submit" disabled={form.processing}>
-                {form.processing ? 'Saving…' : 'Save client'}
+                {form.processing ? $_('Saving…') : $_('Save client')}
             </Button>
             <Button variant="ghost" asChild>
                 {#snippet children(props)}
-                    <Link href={toUrl(index())} class={props.class}>Cancel</Link>
+                    <Link href={toUrl(index())} class={props.class}>{$_('Cancel')}</Link>
                 {/snippet}
             </Button>
         </div>

@@ -7,6 +7,7 @@
     import Settings2 from '@lucide/svelte/icons/settings-2';
     import Users from '@lucide/svelte/icons/users';
     import type { Snippet } from 'svelte';
+    import { _ } from 'svelte-i18n';
     import AppLogo from '@/components/AppLogo.svelte';
     import NavFooter from '@/components/NavFooter.svelte';
     import NavMain from '@/components/NavMain.svelte';
@@ -35,22 +36,22 @@
 
     const mainNavItems: NavItem[] = [
         {
-            title: 'Dashboard',
+            title: $_('Dashboard'),
             href: dashboard(),
             icon: LayoutGrid,
         },
         {
-            title: 'Clients',
+            title: $_('Clients'),
             href: clientsIndex(),
             icon: Users,
         },
         {
-            title: 'Invoices',
+            title: $_('Invoices'),
             href: invoicesIndex(),
             icon: ReceiptText,
         },
         {
-            title: 'Invoicing settings',
+            title: $_('Invoicing settings'),
             href: invoicingSettings(),
             icon: Settings2,
         },
@@ -58,12 +59,12 @@
 
     const footerNavItems: NavItem[] = [
         {
-            title: 'Help centre',
+            title: $_('Help centre'),
             href: 'https://laravel.com/docs/starter-kits#svelte',
             icon: BookOpen,
         },
         {
-            title: 'Report a problem',
+            title: $_('Report a problem'),
             href: 'https://github.com/laravel/svelte-starter-kit',
             icon: FolderGit2,
         },
