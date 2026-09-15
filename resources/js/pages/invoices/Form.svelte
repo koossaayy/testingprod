@@ -1,10 +1,12 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     import { index } from '@/routes/invoices';
 
     export const layout = {
         breadcrumbs: [
             {
-                title: 'Invoices',
+                get title() { return get(_)('Invoices'); },
                 href: index(),
             },
         ],
@@ -44,10 +46,10 @@
 
     /** Short nudges shown under the trickier fields on this form. */
     const FIELD_HINTS = {
-        number: 'Your client will quote this number when they pay, so keep it unique.',
-        dueDate: 'Most freelancers give 14 days. Shorter terms get you paid faster.',
-        taxRate: 'Leave this at zero if you are not registered for sales tax.',
-        notes: 'A warm line here goes a long way. Thank them for the work.',
+        number: $_('Your client will quote this number when they pay, so keep it unique.'),
+        dueDate: $_('Most freelancers give 14 days. Shorter terms get you paid faster.'),
+        taxRate: $_('Leave this at zero if you are not registered for sales tax.'),
+        notes: $_('A warm line here goes a long way. Thank them for the work.'),
     };
 
     const today = new Date().toISOString().slice(0, 10);
@@ -66,12 +68,12 @@
         ],
     }));
 
-    const pageTitle = $derived(isEditing ? 'Edit invoice' : 'New invoice');
+    const pageTitle = $derived(isEditing ? $_('Edit invoice') : $_('New invoice'));
 
     const pageDescription = $derived(
         isEditing
-            ? 'Change anything you need to. The client only sees the invoice once you send it again.'
-            : 'List the work, set a due date, and send it when you are happy.',
+            ? $_('Change anything you need to. The client only sees the invoice once you send it again.')
+            : $_('List the work, set a due date, and send it when you are happy.'),
     );
 
     const subtotal = $derived(
@@ -85,7 +87,7 @@
     const total = $derived(subtotal * (1 + Number(form.tax_rate || 0) / 100));
 
     const lineSummary = $derived(
-        `${form.items.length} ${form.items.length === 1 ? 'line' : 'lines'} adding up to ${total.toFixed(2)} ${form.currency}`,
+        $_('{0} {1} adding up to {2} {3}', { values: { 0: form.items.length, 1: form.items.length === 1 ? 'line' : 'lines', 2: total.toFixed(2), 3: form.currency } }),
     );
 
     function addLine() {
@@ -122,17 +124,16 @@
 
     {#if clients.length === 0}
         <div class="rounded-xl border border-dashed p-6 text-sm">
-            <p class="font-medium">You need a client first</p>
+            <p class="font-medium">{$_('You need a client first')}</p>
             <p class="mt-1 text-muted-foreground">
-                Add the company you are billing, then come back and raise the
-                invoice.
+                {$_('Add the company you are billing, then come back and raise the invoice.')}
             </p>
         </div>
     {:else}
         <form onsubmit={submit} class="max-w-3xl space-y-6">
             <div class="grid gap-4 sm:grid-cols-2">
                 <div class="grid gap-2">
-                    <Label for="client_id">Client</Label>
+                    <Label for="client_id">{$_('Client')}</Label>
                     <select
                         id="client_id"
                         bind:value={form.client_id}
@@ -146,7 +147,7 @@
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="number">Invoice number</Label>
+                    <Label for="number">{$_('Invoice number')}</Label>
                     <Input
                         id="number"
                         bind:value={form.number}
@@ -162,7 +163,7 @@
 
             <div class="grid gap-4 sm:grid-cols-3">
                 <div class="grid gap-2">
-                    <Label for="status">Status</Label>
+                    <Label for="status">{$_('Status')}</Label>
                     <select
                         id="status"
                         bind:value={form.status}
@@ -178,13 +179,13 @@
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="issued_on">Issue date</Label>
+                    <Label for="issued_on">{$_('Issue date')}</Label>
                     <Input id="issued_on" type="date" bind:value={form.issued_on} />
                     <InputError message={form.errors.issued_on} />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="due_on">Due date</Label>
+                    <Label for="due_on">{$_('Due date')}</Label>
                     <Input id="due_on" type="date" bind:value={form.due_on} />
                     <p class="text-xs text-muted-foreground">
                         {FIELD_HINTS.dueDate}
@@ -194,7 +195,7 @@
             </div>
 
             <fieldset class="space-y-3 rounded-xl border p-4">
-                <legend class="px-1 text-sm font-semibold">Line items</legend>
+                <legend class="px-1 text-sm font-semibold">{$_('Line items')}</legend>
 
                 {#each form.items as item, position (position)}
                     <div class="grid gap-3 sm:grid-cols-[1fr_6rem_8rem_auto]">
@@ -203,12 +204,12 @@
                                 for={`item-description-${position}`}
                                 class="sr-only"
                             >
-                                Description of the work
+                                {$_('Description of the work')}
                             </Label>
                             <Input
                                 id={`item-description-${position}`}
                                 bind:value={item.description}
-                                placeholder="What did you do for them?"
+                                placeholder={$_('What did you do for them?')}
                             />
                             <InputError
                                 message={form.errors[
@@ -219,7 +220,7 @@
 
                         <div class="grid gap-1">
                             <Label for={`item-quantity-${position}`} class="sr-only">
-                                Quantity or hours
+                                {$_('Quantity or hours')}
                             </Label>
                             <Input
                                 id={`item-quantity-${position}`}
@@ -227,13 +228,13 @@
                                 step="0.25"
                                 min="0.25"
                                 bind:value={item.quantity}
-                                title="Hours worked, or the number of units"
+                                title={$_('Hours worked, or the number of units')}
                             />
                         </div>
 
                         <div class="grid gap-1">
                             <Label for={`item-rate-${position}`} class="sr-only">
-                                Rate per unit
+                                {$_('Rate per unit')}
                             </Label>
                             <Input
                                 id={`item-rate-${position}`}
@@ -241,7 +242,7 @@
                                 step="0.01"
                                 min="0"
                                 bind:value={item.unit_amount}
-                                title="Your rate for this line"
+                                title={$_('Your rate for this line')}
                             />
                         </div>
 
@@ -250,8 +251,8 @@
                             size="icon"
                             onclick={() => removeLine(position)}
                             disabled={form.items.length === 1}
-                            aria-label="Remove this line"
-                            title="Remove this line from the invoice"
+                            aria-label={$_('Remove this line')}
+                            title={$_('Remove this line from the invoice')}
                         >
                             <Trash2 class="size-4" />
                         </Button>
@@ -263,7 +264,7 @@
                 <div class="flex items-center justify-between">
                     <Button variant="outline" size="sm" onclick={addLine}>
                         <Plus class="mr-2 size-4" />
-                        Add another line
+                        {$_('Add another line')}
                     </Button>
                     <p class="text-xs text-muted-foreground">{lineSummary}</p>
                 </div>
@@ -271,7 +272,7 @@
 
             <div class="grid gap-4 sm:grid-cols-2">
                 <div class="grid gap-2">
-                    <Label for="tax_rate">Tax rate in percent</Label>
+                    <Label for="tax_rate">{$_('Tax rate in percent')}</Label>
                     <Input
                         id="tax_rate"
                         type="number"
@@ -287,25 +288,25 @@
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="currency">Currency</Label>
+                    <Label for="currency">{$_('Currency')}</Label>
                     <Input
                         id="currency"
                         bind:value={form.currency}
                         maxlength={3}
-                        placeholder="USD"
+                        placeholder={$_('USD')}
                     />
                     <InputError message={form.errors.currency} />
                 </div>
             </div>
 
             <div class="grid gap-2">
-                <Label for="notes">Note to the client</Label>
+                <Label for="notes">{$_('Note to the client')}</Label>
                 <textarea
                     id="notes"
                     bind:value={form.notes}
                     rows="3"
                     class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                    placeholder="Thanks again for a great month of work."
+                    placeholder={$_('Thanks again for a great month of work.')}
                 ></textarea>
                 <p class="text-xs text-muted-foreground">{FIELD_HINTS.notes}</p>
                 <InputError message={form.errors.notes} />
@@ -313,12 +314,12 @@
 
             <div class="flex items-center gap-3">
                 <Button type="submit" disabled={form.processing}>
-                    {form.processing ? 'Saving…' : 'Save invoice'}
+                    {form.processing ? $_('Saving…') : $_('Save invoice')}
                 </Button>
                 <Button variant="ghost" asChild>
                     {#snippet children(props)}
                         <Link href={toUrl(index())} class={props.class}>
-                            Cancel
+                            {$_('Cancel')}
                         </Link>
                     {/snippet}
                 </Button>
