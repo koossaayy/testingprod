@@ -21,13 +21,13 @@ class PublicInvoiceController extends Controller
         abort_if(
             $invoice === null,
             404,
-            'That payment link has expired or the invoice was removed.'
+            __('That payment link has expired or the invoice was removed.')
         );
 
         abort_if(
             $invoice->status === InvoiceStatus::Cancelled,
             410,
-            'This invoice was cancelled, so there is nothing left to pay.'
+            __('This invoice was cancelled, so there is nothing left to pay.')
         );
 
         $view = view('invoices.paid', [

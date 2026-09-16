@@ -1,6 +1,7 @@
 <script lang="ts">
     import KeyRound from '@lucide/svelte/icons/key-round';
     import Trash2 from '@lucide/svelte/icons/trash-2';
+    import { _ } from 'svelte-i18n';
     import { Button } from '@/components/ui/button';
     import {
         Dialog,
@@ -69,22 +70,21 @@
                     onclick={props.onClick}
                 >
                     <Trash2 class="h-4 w-4" />
-                    <span class="sr-only">Remove</span>
+                    <span class="sr-only">{$_('Remove')}</span>
                 </Button>
             {/snippet}
         </DialogTrigger>
 
         <DialogContent>
-            <DialogTitle>Remove passkey</DialogTitle>
+            <DialogTitle>{$_('Remove passkey')}</DialogTitle>
             <DialogDescription>
-                Are you sure you want to remove the "{passkey.name}" passkey?
-                You will no longer be able to use it to sign in.
+                {$_('Are you sure you want to remove the "{0}" passkey? You will no longer be able to use it to sign in.', { values: { 0: passkey.name } })}
             </DialogDescription>
             <DialogFooter>
                 <DialogClose asChild>
                     {#snippet children(props)}
                         <Button variant="secondary" onclick={props.onClick}>
-                            Cancel
+                            {$_('Cancel')}
                         </Button>
                     {/snippet}
                 </DialogClose>
@@ -93,7 +93,7 @@
                     disabled={isDeleting}
                     onclick={handleDelete}
                 >
-                    {isDeleting ? 'Removing...' : 'Remove passkey'}
+                    {isDeleting ? $_('Removing...') : $_('Remove passkey')}
                 </Button>
             </DialogFooter>
         </DialogContent>

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Link } from '@inertiajs/svelte';
+    import { _ } from 'svelte-i18n';
     import StatusBadge from '@/components/invoicing/StatusBadge.svelte';
     import { toUrl } from '@/lib/utils';
     import { show } from '@/routes/invoices';
@@ -16,38 +17,38 @@
     /** Turn the remaining days into the phrase we show under the due date. */
     function dueHint(invoice: InvoiceRow): string {
         if (invoice.status === 'paid') {
-            return 'Settled in full';
+            return $_('Settled in full');
         }
 
         if (invoice.days_until_due === 0) {
-            return 'Due today';
+            return $_('Due today');
         }
 
         if (invoice.days_until_due < 0) {
             const days = Math.abs(invoice.days_until_due);
 
-            return `${days} ${days === 1 ? 'day' : 'days'} overdue`;
+            return $_('{0} {1} overdue', { values: { 0: days, 1: days === 1 ? $_('day') : $_('days') } });
         }
 
-        return `Due in ${invoice.days_until_due} ${invoice.days_until_due === 1 ? 'day' : 'days'}`;
+        return $_('Due in {0} {1}', { values: { 0: invoice.days_until_due, 1: invoice.days_until_due === 1 ? $_('day') : $_('days') } });
     }
 </script>
 
 <div class="overflow-x-auto rounded-xl border">
     <table class="w-full text-left text-sm">
         <caption class="sr-only">
-            Every invoice you have raised, with its client, status and amount.
+            {$_('Every invoice you have raised, with its client, status and amount.')}
         </caption>
         <thead class="border-b bg-muted/50 text-xs text-muted-foreground uppercase">
             <tr>
-                <th scope="col" class="px-4 py-3 font-medium">Invoice</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Invoice')}</th>
                 {#if showClientColumn}
-                    <th scope="col" class="px-4 py-3 font-medium">Client</th>
+                    <th scope="col" class="px-4 py-3 font-medium">{$_('Client')}</th>
                 {/if}
-                <th scope="col" class="px-4 py-3 font-medium">Status</th>
-                <th scope="col" class="px-4 py-3 font-medium">Issued</th>
-                <th scope="col" class="px-4 py-3 font-medium">Due date</th>
-                <th scope="col" class="px-4 py-3 text-right font-medium">Amount</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Status')}</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Issued')}</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Due date')}</th>
+                <th scope="col" class="px-4 py-3 text-right font-medium">{$_('Amount')}</th>
             </tr>
         </thead>
         <tbody class="divide-y">
@@ -57,7 +58,7 @@
                         <Link
                             href={toUrl(show(invoice.id))}
                             class="underline-offset-4 hover:underline"
-                            title={`Open invoice ${invoice.number}`}
+                            title={$_('Open invoice {0}', { values: { 0: invoice.number } })}
                         >
                             {invoice.number}
                         </Link>
