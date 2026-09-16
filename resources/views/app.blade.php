@@ -17,12 +17,12 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.ts'])
         <x-inertia::head>
-            <title>Freelance Invoice Tracker</title>
+            <title>{{ __('Freelance Invoice Tracker') }}</title>
         </x-inertia::head>
     </head>
     <body class="font-sans antialiased">
         <noscript>
-            <p>Freelance Invoice Tracker needs JavaScript turned on. Enable it in your browser settings and reload the page to carry on.</p>
+            <p>{{ __('Freelance Invoice Tracker needs JavaScript turned on. Enable it in your browser settings and reload the page to carry on.') }}</p>
         </noscript>
         <x-inertia::app />
     </body>

@@ -2,6 +2,7 @@
     import Breadcrumbs from '@/components/Breadcrumbs.svelte';
     import { SidebarTrigger } from '@/components/ui/sidebar';
     import type { BreadcrumbItem } from '@/types';
+    import LanguageSwitcher from './LanguageSwitcher.svelte';
 
     let {
         breadcrumbs = [],
@@ -18,5 +19,8 @@
         {#if breadcrumbs && breadcrumbs.length > 0}
             <Breadcrumbs {breadcrumbs} />
         {/if}
+    </div>
+    <div class="ml-auto">
+        <LanguageSwitcher />
     </div>
 </header>

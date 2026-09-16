@@ -44,7 +44,7 @@ class InvoicingController extends Controller
         $request->session()->put('invoicing_preferences', $request->validated());
 
         return to_route('invoicing.edit')
-            ->with('success', 'Your invoicing preferences have been updated.');
+            ->with('success', __('Your invoicing preferences have been updated.'));
     }
 
     /**
