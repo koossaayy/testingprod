@@ -39,7 +39,7 @@
     "Are you sure you want to delete your account?": "Êtes-vous sûr de vouloir supprimer votre compte ?",
     "Are you sure you want to remove the \"{0}\" passkey? You will no longer be able to use it to sign in.": "Voulez-vous vraiment supprimer la clé d’accès « {0} » ? Vous ne pourrez plus l’utiliser pour vous connecter.",
     "Are you sure?": "Êtes-vous sûr ?",
-    "Attention: {0}": "À l’attention de : {0}",
+    "Attention: {0}": "À l'attention de {0}",
     "Authenticating...": "Authentification...",
     "Authentication code": "Code d’authentification",
     "Awaiting payment": "En attente de paiement",
