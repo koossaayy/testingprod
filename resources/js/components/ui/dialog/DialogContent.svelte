@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Snippet } from 'svelte';
     import { getContext } from 'svelte';
+    import { _ } from 'svelte-i18n';
     import { cn } from '@/lib/utils';
     import { DIALOG_CONTEXT, type DialogContext } from './context';
 
@@ -16,7 +17,7 @@
         <button
             type="button"
             class="fixed inset-0 bg-black/50"
-            aria-label="Close"
+            aria-label={$_('Close')}
             onclick={close}
         ></button>
         <div
