@@ -57,7 +57,7 @@ class ClientController extends Controller
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => "{$client->name} was added to your client list.",
+            'message' => __(':name was added to your client list.', ['name' => $client->name]),
         ]);
 
         return to_route('clients.index');
@@ -98,7 +98,7 @@ class ClientController extends Controller
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => 'Client details saved.',
+            'message' => __('Client details saved.'),
         ]);
 
         return to_route('clients.index');
@@ -114,7 +114,7 @@ class ClientController extends Controller
         if ($client->invoices()->outstanding()->exists()) {
             Inertia::flash('toast', [
                 'type' => 'error',
-                'message' => 'This client still has unpaid invoices, so it cannot be deleted yet.',
+                'message' => __('This client still has unpaid invoices, so it cannot be deleted yet.'),
             ]);
 
             return to_route('clients.index');
@@ -124,7 +124,7 @@ class ClientController extends Controller
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => 'The client and their invoice history have been deleted.',
+            'message' => __('The client and their invoice history have been deleted.'),
         ]);
 
         return to_route('clients.index');

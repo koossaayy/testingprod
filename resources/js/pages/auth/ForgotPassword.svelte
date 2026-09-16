@@ -1,7 +1,9 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     export const layout = {
-        title: 'Forgot password',
-        description: 'Enter your email to receive a password reset link',
+        get title() { return get(_)('Forgot password'); },
+        get description() { return get(_)('Enter your email to receive a password reset link'); },
     };
 </script>
 
@@ -24,7 +26,7 @@
     } = $props();
 </script>
 
-<AppHead title="Forgot password" />
+<AppHead title={$_('Forgot password')} />
 
 {#if status}
     <div class="mb-4 text-center text-sm font-medium text-green-600">
@@ -36,7 +38,7 @@
     <Form {...email.form()}>
         {#snippet children({ errors, processing })}
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email">{$_('Email address')}</Label>
                 <Input
                     id="email"
                     type="email"
@@ -62,7 +64,7 @@
     </Form>
 
     <div class="space-x-1 text-center text-sm text-muted-foreground">
-        <span>Or, return to</span>
-        <TextLink href={login()}>log in</TextLink>
+        <span>{$_('Or, return to')}</span>
+        <TextLink href={login()}>{$_('log in')}</TextLink>
     </div>
 </div>

@@ -4,6 +4,7 @@
     import Copy from '@lucide/svelte/icons/copy';
     import ScanLine from '@lucide/svelte/icons/scan-line';
     import { tick } from 'svelte';
+    import { _ } from 'svelte-i18n';
     import AlertError from '@/components/AlertError.svelte';
     import InputError from '@/components/InputError.svelte';
     import { Button } from '@/components/ui/button';
@@ -45,27 +46,27 @@
     const modalConfig: TwoFactorConfigContent = $derived.by(() => {
         if (twoFactorEnabled) {
             return {
-                title: 'Two-factor authentication enabled',
+                title: $_('Two-factor authentication enabled'),
                 description:
-                    'Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.',
-                buttonText: 'Close',
+                    $_('Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.'),
+                buttonText: $_('Close'),
             };
         }
 
         if (showVerificationStep) {
             return {
-                title: 'Verify authentication code',
+                title: $_('Verify authentication code'),
                 description:
-                    'Enter the 6-digit code from your authenticator app',
-                buttonText: 'Continue',
+                    $_('Enter the 6-digit code from your authenticator app'),
+                buttonText: $_('Continue'),
             };
         }
 
         return {
-            title: 'Enable two-factor authentication',
+            title: $_('Enable two-factor authentication'),
             description:
-                'To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app',
-            buttonText: 'Continue',
+                $_('To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app'),
+            buttonText: $_('Continue'),
         };
     });
 
@@ -185,7 +186,7 @@
                                     >
                                         <img
                                             src={qrCodeDataUrl}
-                                            alt="Two-factor authentication QR code"
+                                            alt={$_('Two-factor authentication QR code')}
                                             class="size-full"
                                         />
                                     </div>
@@ -207,7 +208,7 @@
                             class="absolute inset-0 top-1/2 h-px w-full bg-border"
                         ></div>
                         <span class="relative bg-card px-2 py-1"
-                            >or, enter the code manually</span
+                            >{$_('or, enter the code manually')}</span
                         >
                     </div>
 
@@ -293,14 +294,14 @@
                                         (showVerificationStep = false)}
                                     disabled={processing}
                                 >
-                                    Back
+                                    {$_('Back')}
                                 </Button>
                                 <Button
                                     type="submit"
                                     class="w-auto flex-1"
                                     disabled={processing || code.length < 6}
                                 >
-                                    Confirm
+                                    {$_('Confirm')}
                                 </Button>
                             </div>
                         </div>
