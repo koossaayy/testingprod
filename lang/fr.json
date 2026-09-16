@@ -1,7 +1,7 @@
 {
     "# Invoice :param_1 is ready Hi :param_2, Thanks again for the work this month. Your invoice for **:param_3** is set out below, and payment is due on :param_4.": "# La facture :param_1 est prête Bonjour :param_2, merci encore pour votre travail ce mois-ci. Votre facture pour **:param_3** figure ci-dessous, et le paiement est dû le :param_4.",
     "## What this covers": "## Ce que cela couvre",
-    "2FA recovery codes": "Codes de récupération 2FA",
+    "2FA recovery codes": "Codes de récupération",
     ":name has paid invoice :number.": ":name a payé la facture :number.",
     ":name settled invoice :number in full.": ":name a réglé intégralement la facture :number.",
     ":name was added to your client list.": ":name a été ajouté à votre liste de clients.",
@@ -358,7 +358,7 @@
     "Three letter currency code, for example USD or EUR": "Code devise à trois lettres, par exemple USD ou EUR",
     "To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app": "Pour terminer l’activation de l’authentification à deux facteurs, scannez le code QR ou saisissez la clé de configuration dans votre application d’authentification",
     "Toggle navigation": "Afficher ou masquer la navigation",
-    "Toggle sidebar": "Afficher/masquer la barre latérale",
+    "Toggle sidebar": "Afficher\/masquer la barre latérale",
     "Too Many Requests": "Trop de requêtes",
     "Total due": "Total dû",
     "Totals": "Totaux",
