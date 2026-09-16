@@ -1,7 +1,9 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     export const layout = {
-        title: 'Create an account',
-        description: 'Enter your details below to create your account',
+        get title() { return get(_)('Create an account'); },
+        get description() { return get(_)('Enter your details below to create your account'); },
     };
 </script>
 
@@ -21,7 +23,7 @@
     let { passwordRules }: { passwordRules: string } = $props();
 </script>
 
-<AppHead title="Register" />
+<AppHead title={$_('Register')} />
 
 <Form
     {...store.form()}
@@ -31,20 +33,20 @@
     {#snippet children({ errors, processing })}
         <div class="grid gap-6">
             <div class="grid gap-2">
-                <Label for="name">Name</Label>
+                <Label for="name">{$_('Name')}</Label>
                 <Input
                     id="name"
                     type="text"
                     required
                     autocomplete="name"
                     name="name"
-                    placeholder="Full name"
+                    placeholder={$_('Full name')}
                 />
                 <InputError message={errors.name} />
             </div>
 
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email">{$_('Email address')}</Label>
                 <Input
                     id="email"
                     type="email"
@@ -57,26 +59,26 @@
             </div>
 
             <div class="grid gap-2">
-                <Label for="password">Password</Label>
+                <Label for="password">{$_('Password')}</Label>
                 <PasswordInput
                     id="password"
                     required
                     autocomplete="new-password"
                     name="password"
-                    placeholder="Password"
+                    placeholder={$_('Password')}
                     passwordrules={passwordRules}
                 />
                 <InputError message={errors.password} />
             </div>
 
             <div class="grid gap-2">
-                <Label for="password_confirmation">Confirm password</Label>
+                <Label for="password_confirmation">{$_('Confirm password')}</Label>
                 <PasswordInput
                     id="password_confirmation"
                     required
                     autocomplete="new-password"
                     name="password_confirmation"
-                    placeholder="Confirm password"
+                    placeholder={$_('Confirm password')}
                     passwordrules={passwordRules}
                 />
                 <InputError message={errors.password_confirmation} />
@@ -94,9 +96,9 @@
         </div>
 
         <div class="text-center text-sm text-muted-foreground">
-            Already have an account?
+            {$_('Already have an account?')}
             <TextLink href={login()} class="underline underline-offset-4">
-                Log in
+                {$_('Log in')}
             </TextLink>
         </div>
     {/snippet}

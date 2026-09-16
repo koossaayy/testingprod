@@ -32,12 +32,12 @@ class InvoicingRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'business_name.required' => 'Your business name appears at the top of every invoice.',
-            'invoice_prefix.required' => 'Choose a short prefix such as INV for your invoice numbers.',
-            'invoice_prefix.max' => 'Keep the prefix to ten characters or fewer.',
-            'default_payment_terms_days.required' => 'Set the default number of days clients have to pay.',
-            'default_tax_rate.max' => 'A default tax rate above 100 percent is not allowed.',
-            'payment_instructions.max' => 'Payment instructions have to fit in 1000 characters.',
+            'business_name.required' => __('Your business name appears at the top of every invoice.'),
+            'invoice_prefix.required' => __('Choose a short prefix such as INV for your invoice numbers.'),
+            'invoice_prefix.max' => __('Keep the prefix to ten characters or fewer.'),
+            'default_payment_terms_days.required' => __('Set the default number of days clients have to pay.'),
+            'default_tax_rate.max' => __('A default tax rate above 100 percent is not allowed.'),
+            'payment_instructions.max' => __('Payment instructions have to fit in 1000 characters.'),
         ];
     }
 }
