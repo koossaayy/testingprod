@@ -1,8 +1,9 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     export const layout = {
-        title: 'Confirm password',
-        description:
-            'This is a secure area of the application. Please confirm your password before continuing.',
+        get title() { return get(_)('Confirm password'); },
+        get description() { return get(_)('This is a secure area of the application. Please confirm your password before continuing.'); },
     };
 </script>
 
@@ -22,23 +23,23 @@
     import PasskeyVerify from '@/components/PasskeyVerify.svelte';
 </script>
 
-<AppHead title="Confirm password" />
+<AppHead title={$_('Confirm password')} />
 
 <PasskeyVerify
     routes={{
         options: confirmOptions(),
         submit: confirmStore(),
     }}
-    label="Confirm with passkey"
-    loadingLabel="Confirming..."
-    separator="Or confirm with password"
+    label={$_('Confirm with passkey')}
+    loadingLabel={$_('Confirming...')}
+    separator={$_('Or confirm with password')}
 />
 
 <Form {...store.form()} resetOnSuccess>
     {#snippet children({ errors, processing })}
         <div class="space-y-6">
             <div class="grid gap-2">
-                <Label for="password">Password</Label>
+                <Label for="password">{$_('Password')}</Label>
                 <PasswordInput
                     id="password"
                     name="password"
@@ -57,7 +58,7 @@
                     data-test="confirm-password-button"
                 >
                     {#if processing}<Spinner />{/if}
-                    Confirm password
+                    {$_('Confirm password')}
                 </Button>
             </div>
         </div>

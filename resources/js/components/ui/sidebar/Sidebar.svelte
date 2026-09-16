@@ -3,6 +3,7 @@
     import { getContext } from 'svelte';
     import { cubicOut } from 'svelte/easing';
     import { fade, fly } from 'svelte/transition';
+    import { _ } from 'svelte-i18n';
     import { cn } from '@/lib/utils';
     import {
         SIDEBAR_CONTEXT,
@@ -40,7 +41,7 @@
             <button
                 type="button"
                 class="fixed inset-0 bg-black/50"
-                aria-label="Close"
+                aria-label={$_('Close')}
                 onclick={() => setOpenMobile(false)}
                 transition:fade={{ duration: 200 }}
             ></button>

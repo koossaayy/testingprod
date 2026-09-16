@@ -32,13 +32,13 @@ class InvoicePaidNotification extends Notification
         $total = Money::format($this->invoice->totalCents(), $this->invoice->currency);
 
         return (new MailMessage)
-            ->subject("Payment received for invoice {$this->invoice->number}")
-            ->greeting('Good news!')
-            ->line("{$this->invoice->client->name} has paid invoice {$this->invoice->number}.")
-            ->line("The full amount of {$total} has been recorded against the invoice.")
-            ->action('View the invoice', route('invoices.show', $this->invoice))
-            ->line('Nothing else to do here. Go and enjoy the rest of your day.')
-            ->salutation('Happy invoicing, the Freelance Invoice Tracker team');
+            ->subject(__('Payment received for invoice :number', ['number' => $this->invoice->number]))
+            ->greeting(__('Good news!'))
+            ->line(__(':name has paid invoice :number.', ['name' => $this->invoice->client->name, 'number' => $this->invoice->number]))
+            ->line(__('The full amount of :total has been recorded against the invoice.', ['total' => $total]))
+            ->action(__('View the invoice'), route('invoices.show', $this->invoice))
+            ->line(__('Nothing else to do here. Go and enjoy the rest of your day.'))
+            ->salutation(__('Happy invoicing, the Freelance Invoice Tracker team'));
     }
 
     /**
@@ -51,9 +51,9 @@ class InvoicePaidNotification extends Notification
         return [
             'invoice_id' => $this->invoice->id,
             'invoice_number' => $this->invoice->number,
-            'title' => 'Invoice marked as paid',
-            'body' => "{$this->invoice->client->name} settled invoice {$this->invoice->number} in full.",
-            'action_label' => 'Open the invoice',
+            'title' => __('Invoice marked as paid'),
+            'body' => __(':name settled invoice :number in full.', ['name' => $this->invoice->client->name, 'number' => $this->invoice->number]),
+            'action_label' => __('Open the invoice'),
             'action_url' => route('invoices.show', $this->invoice),
         ];
     }

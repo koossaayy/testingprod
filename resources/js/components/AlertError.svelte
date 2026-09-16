@@ -1,10 +1,11 @@
 <script lang="ts">
     import CircleAlert from '@lucide/svelte/icons/circle-alert';
+    import { _ } from 'svelte-i18n';
     import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
     let {
         errors = [],
-        title = 'Something went wrong.',
+        title = $_('Something went wrong.'),
     }: {
         errors: string[];
         title?: string;

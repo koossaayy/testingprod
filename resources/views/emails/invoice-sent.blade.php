@@ -6,24 +6,23 @@ Hi {{ $clientName }},
 Thanks again for the work this month. Your invoice for **{{ $total }}** is set out below, and payment is due on {{ $dueOn }}.
 
 <x-mail::panel>
-Invoice number: {{ $invoice->number }}<br>
-Issued on: {{ $invoice->issued_on->format('F j, Y') }}<br>
-Amount due: {{ $total }}<br>
-Payment terms: {{ $invoice->client->payment_terms_days }} days from the issue date
+{{ __('Invoice number: :param_1', ['param_1' => $invoice->number]) }}<br>
+{{ __('Issued on: :param_1', ['param_1' => $invoice->issued_on->format('F j, Y')]) }}<br>
+{{ __('Amount due: :param_1', ['param_1' => $total]) }}<br>
+{{ __('Payment terms: :param_1 days from the issue date', ['param_1' => $invoice->client->payment_terms_days]) }}
 </x-mail::panel>
 
-## What this covers
+{{ __('## What this covers') }}
 
 <x-mail::table>
-| Work | Hours or units |
-| :--- | -------------: |
+{{ __('| Work | Hours or units | | :--- | -------------: |') }}
 @foreach ($invoice->items as $item)
 | {{ $item->description }} | {{ rtrim(rtrim(number_format($item->quantity, 2), '0'), '.') }} |
 @endforeach
 </x-mail::table>
 
 <x-mail::button :url="$paymentUrl">
-Pay this invoice
+{{ __('Pay this invoice') }}
 </x-mail::button>
 
 If you have already sent the payment across, please ignore this reminder. Bank transfers can take a day or two to show up on our side.

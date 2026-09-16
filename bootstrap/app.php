@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             HandleAppearance::class,
+            \App\Http\Middleware\SetLocale::class, // must run before HandleInertiaRequests
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
