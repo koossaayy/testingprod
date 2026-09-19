@@ -318,7 +318,7 @@
     "Settings": "Einstellungen",
     "Settled in full": "Vollständig beglichen",
     "Showing": "Anzeige",
-    "Showing {0, plural, one {# invoice} other {# invoices}} of {1}": "'{'0, Plural, one '{'# Rechnung'}' other '{'# Rechnungen'}''}' von {1} angezeigt",
+    "Showing {0, plural, one {# invoice} other {# invoices}} of {1}": "{0, plural, one {# Rechnung} other {# Rechnungen}} von {1} angezeigt",
     "Shown on the invoice footer": "Wird in der Fußzeile der Rechnung angezeigt",
     "Sidebar context is not available": "Der Kontext der Seitenleiste ist nicht verfügbar",
     "Sign in with a passkey": "Mit einem Passkey anmelden",
