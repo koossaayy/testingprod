@@ -66,7 +66,7 @@ class InvoiceController extends Controller
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => "Invoice {$invoice->number} was created as a draft.",
+            'message' => __('Invoice :number was created as a draft.', ['number' => $invoice->number]),
         ]);
 
         return to_route('invoices.show', $invoice);
@@ -150,7 +150,7 @@ class InvoiceController extends Controller
         abort_if(
             $invoice->status === InvoiceStatus::Paid,
             403,
-            'A paid invoice can no longer be edited. Duplicate it instead.'
+            __('A paid invoice can no longer be edited. Duplicate it instead.')
         );
 
         $data = $request->validated();
@@ -165,7 +165,7 @@ class InvoiceController extends Controller
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => 'Your changes to this invoice have been saved.',
+            'message' => __('Your changes to this invoice have been saved.'),
         ]);
 
         return to_route('invoices.show', $invoice);
@@ -186,7 +186,7 @@ class InvoiceController extends Controller
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => "Invoice {$invoice->number} is on its way to {$invoice->client->name}.",
+            'message' => __('Invoice :number is on its way to :name.', ['number' => $invoice->number, 'name' => $invoice->client->name]),
         ]);
 
         return back();
@@ -211,7 +211,7 @@ class InvoiceController extends Controller
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => "Nice work. Invoice {$invoice->number} is marked as paid.",
+            'message' => __('Nice work. Invoice :number is marked as paid.', ['number' => $invoice->number]),
         ]);
 
         return back();
@@ -227,14 +227,14 @@ class InvoiceController extends Controller
         abort_unless(
             $invoice->status === InvoiceStatus::Draft,
             403,
-            'Only draft invoices can be deleted. Cancel this one instead.'
+            __('Only draft invoices can be deleted. Cancel this one instead.')
         );
 
         $invoice->delete();
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => 'The draft invoice has been deleted.',
+            'message' => __('The draft invoice has been deleted.'),
         ]);
 
         return to_route('invoices.index');
@@ -294,7 +294,7 @@ class InvoiceController extends Controller
         abort_unless(
             $invoice->user_id === $request->user()->id,
             403,
-            'You do not have permission to open this invoice.'
+            __('You do not have permission to open this invoice.')
         );
     }
 }

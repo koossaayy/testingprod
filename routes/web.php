@@ -21,3 +21,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/settings.php';
+
+Route::get('/locale/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, config('app.available_locales', ['en', 'fr', 'ar', 'de', 'ja', 'tr'])), 404);
+    session(['locale' => $locale]);
+
+    return back();
+})->name('locale.switch');

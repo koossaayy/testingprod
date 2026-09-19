@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from 'svelte-i18n';
     import { Button } from '@/components/ui/button';
     import {
         Dialog,
@@ -10,10 +11,10 @@
 
     let {
         open = false,
-        title = 'Are you sure?',
-        description = 'This cannot be undone, so take a second before you commit.',
-        confirmLabel = 'Yes, go ahead',
-        cancelLabel = 'Never mind',
+        title = $_('Are you sure?'),
+        description = $_('This cannot be undone, so take a second before you commit.'),
+        confirmLabel = $_('Yes, go ahead'),
+        cancelLabel = $_('Never mind'),
         destructive = true,
         onConfirm,
         onCancel,
@@ -38,7 +39,7 @@
             <Button
                 variant="outline"
                 onclick={onCancel}
-                title="Close this dialog and change nothing"
+                title={$_('Close this dialog and change nothing')}
             >
                 {cancelLabel}
             </Button>

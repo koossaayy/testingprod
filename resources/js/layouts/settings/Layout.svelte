@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Link } from '@inertiajs/svelte';
     import type { Snippet } from 'svelte';
+    import { _ } from 'svelte-i18n';
     import Heading from '@/components/Heading.svelte';
     import { Button } from '@/components/ui/button';
     import { Separator } from '@/components/ui/separator';
@@ -20,19 +21,19 @@
 
     const sidebarNavItems: NavItem[] = [
         {
-            title: 'Profile',
+            title: $_('Profile'),
             href: editProfile(),
         },
         {
-            title: 'Security',
+            title: $_('Security'),
             href: editSecurity(),
         },
         {
-            title: 'Invoicing',
+            title: $_('Invoicing'),
             href: editInvoicing(),
         },
         {
-            title: 'Appearance',
+            title: $_('Appearance'),
             href: editAppearance(),
         },
     ];
@@ -42,15 +43,15 @@
 
 <div class="px-4 py-6">
     <Heading
-        title="Settings"
-        description="Manage your profile and account settings"
+        title={$_('Settings')}
+        description={$_('Manage your profile and account settings')}
     />
 
     <div class="flex flex-col lg:flex-row lg:space-x-12">
         <aside class="w-full max-w-xl lg:w-48">
             <nav
                 class="flex flex-col space-y-1 space-x-0"
-                aria-label="Settings"
+                aria-label={$_('Settings')}
             >
                 {#each sidebarNavItems as item (toUrl(item.href))}
                     <Button

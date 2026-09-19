@@ -4,6 +4,7 @@
     import { usePasskeyVerify } from '@laravel/passkeys/svelte';
     import KeyRound from '@lucide/svelte/icons/key-round';
     import { untrack } from 'svelte';
+    import { _ } from 'svelte-i18n';
     import InputError from '@/components/InputError.svelte';
     import { Button } from '@/components/ui/button';
     import { Separator } from '@/components/ui/separator';
@@ -53,8 +54,8 @@
                 <KeyRound class="h-4 w-4" />
             {/if}
             {passkeyVerify.isLoading
-                ? (props.loadingLabel ?? 'Authenticating...')
-                : (props.label ?? 'Sign in with a passkey')}
+                ? (props.loadingLabel ?? $_('Authenticating...'))
+                : (props.label ?? $_('Sign in with a passkey'))}
         </Button>
 
         {#if passkeyVerify.error}
@@ -70,7 +71,7 @@
         </div>
         <div class="relative flex justify-center text-xs uppercase">
             <span class="bg-background px-2 text-muted-foreground">
-                {props.separator ?? 'Or continue with email'}
+                {props.separator ?? $_('Or continue with email')}
             </span>
         </div>
     </div>

@@ -1,10 +1,12 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     import { index } from '@/routes/clients';
 
     export const layout = {
         breadcrumbs: [
             {
-                title: 'Clients',
+                get title() { return get(_)('Clients'); },
                 href: index(),
             },
         ],
@@ -40,21 +42,18 @@
     );
 
     const resultSummary = $derived(
-        visibleClients.length === 1
-            ? '1 client matches your search'
-            : `${visibleClients.length} clients match your search`,
+        $_('{0, plural, one {# client matches your search} other {# clients match your search}}', { values: { 0: visibleClients.length } }),
     );
 </script>
 
-<AppHead title="Clients" />
+<AppHead title={$_('Clients')} />
 
 <div class="flex h-full flex-1 flex-col gap-6 p-4">
     <header class="flex flex-wrap items-end justify-between gap-4">
         <div>
-            <h1 class="text-xl font-semibold tracking-tight">Clients</h1>
+            <h1 class="text-xl font-semibold tracking-tight">{$_('Clients')}</h1>
             <p class="text-sm text-muted-foreground">
-                Everyone you bill, along with the terms you agreed and how much
-                work you have invoiced them for.
+                {$_('Everyone you bill, along with the terms you agreed and how much work you have invoiced them for.')}
             </p>
         </div>
         <Button asChild>
@@ -62,9 +61,9 @@
                 <Link
                     href={toUrl(create())}
                     class={props.class}
-                    title="Add someone new to your client list"
+                    title={$_('Add someone new to your client list')}
                 >
-                    Add client
+                    {$_('Add client')}
                 </Link>
             {/snippet}
         </Button>
@@ -72,13 +71,13 @@
 
     {#if clients.length === 0}
         <EmptyState
-            title="No clients yet"
-            description="Add the first company or person you work with, and their details will be filled in automatically on every invoice you raise."
+            title={$_('No clients yet')}
+            description={$_('Add the first company or person you work with, and their details will be filled in automatically on every invoice you raise.')}
         >
             <Button asChild>
                 {#snippet children(props)}
                     <Link href={toUrl(create())} class={props.class}>
-                        Add your first client
+                        {$_('Add your first client')}
                     </Link>
                 {/snippet}
             </Button>
@@ -93,15 +92,15 @@
                     bind:value={searchTerm}
                     class="pl-9"
                     type="search"
-                    placeholder="Search by name, contact or email"
-                    aria-label="Search your clients"
+                    placeholder={$_('Search by name, contact or email')}
+                    aria-label={$_('Search your clients')}
                 />
             </div>
 
             {#if visibleClients.length === 0}
                 <EmptyState
-                    title="Nothing matched that search"
-                    description="Try a shorter phrase, or clear the search box to see every client again."
+                    title={$_('Nothing matched that search')}
+                    description={$_('Try a shorter phrase, or clear the search box to see every client again.')}
                 />
             {:else}
                 <ClientTable clients={visibleClients} />

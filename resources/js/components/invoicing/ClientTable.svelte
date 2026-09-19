@@ -2,6 +2,7 @@
     import { Link, router } from '@inertiajs/svelte';
     import Pencil from '@lucide/svelte/icons/pencil';
     import Trash2 from '@lucide/svelte/icons/trash-2';
+    import { _ } from 'svelte-i18n';
     import ConfirmDialog from '@/components/ConfirmDialog.svelte';
     import { Badge } from '@/components/ui/badge';
     import { Button } from '@/components/ui/button';
@@ -22,10 +23,10 @@
     /** Describe how many invoices a client has, in plain language. */
     function invoiceSummary(client: ClientRow): string {
         if (client.invoices_count === 0) {
-            return 'No invoices yet';
+            return $_('No invoices yet');
         }
 
-        return `${client.invoices_count} ${client.invoices_count === 1 ? 'invoice' : 'invoices'}`;
+        return $_('{0, plural, one {# invoice} other {# invoices}}', { values: { 0: client.invoices_count } });
     }
 
     function deleteClient() {
@@ -48,17 +49,17 @@
 <div class="overflow-x-auto rounded-xl border">
     <table class="w-full text-left text-sm">
         <caption class="sr-only">
-            The people and companies you bill, with their payment terms.
+            {$_('The people and companies you bill, with their payment terms.')}
         </caption>
         <thead class="border-b bg-muted/50 text-xs text-muted-foreground uppercase">
             <tr>
-                <th scope="col" class="px-4 py-3 font-medium">Client</th>
-                <th scope="col" class="px-4 py-3 font-medium">Main contact</th>
-                <th scope="col" class="px-4 py-3 font-medium">Email</th>
-                <th scope="col" class="px-4 py-3 font-medium">Payment terms</th>
-                <th scope="col" class="px-4 py-3 font-medium">Invoices</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Client')}</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Main contact')}</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Email')}</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Payment terms')}</th>
+                <th scope="col" class="px-4 py-3 font-medium">{$_('Invoices')}</th>
                 <th scope="col" class="px-4 py-3 text-right font-medium">
-                    <span class="sr-only">Actions</span>
+                    <span class="sr-only">{$_('Actions')}</span>
                 </th>
             </tr>
         </thead>
@@ -68,23 +69,23 @@
                     <td class="px-4 py-3 font-medium">
                         <span>{client.name}</span>
                         {#if client.is_archived}
-                            <Badge variant="outline" class="ml-2">Archived</Badge>
+                            <Badge variant="outline" class="ml-2">{$_('Archived')}</Badge>
                         {/if}
                     </td>
                     <td class="px-4 py-3 text-muted-foreground">
-                        {client.contact_name ?? 'No contact saved'}
+                        {client.contact_name ?? $_('No contact saved')}
                     </td>
                     <td class="px-4 py-3 text-muted-foreground">
                         <a
                             href={`mailto:${client.email}`}
                             class="underline-offset-4 hover:underline"
-                            title={`Send an email to ${client.name}`}
+                            title={$_('Send an email to {0}', { values: { 0: client.name } })}
                         >
                             {client.email}
                         </a>
                     </td>
                     <td class="px-4 py-3 text-muted-foreground">
-                        {client.payment_terms_days} days
+                        {$_('{0} days', { values: { 0: client.payment_terms_days } })}
                     </td>
                     <td class="px-4 py-3 text-muted-foreground">
                         {invoiceSummary(client)}
@@ -96,8 +97,8 @@
                                     <Link
                                         href={toUrl(edit(client.id))}
                                         class={props.class}
-                                        aria-label={`Edit ${client.name}`}
-                                        title="Edit this client"
+                                        aria-label={$_('Edit {0}', { values: { 0: client.name } })}
+                                        title={$_('Edit this client')}
                                     >
                                         <Pencil class="size-4" />
                                     </Link>
@@ -106,8 +107,8 @@
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                aria-label={`Delete ${client.name}`}
-                                title="Delete this client"
+                                aria-label={$_('Delete {0}', { values: { 0: client.name } })}
+                                title={$_('Delete this client')}
                                 onclick={() => (confirmingClient = client)}
                             >
                                 <Trash2 class="size-4" />
@@ -122,10 +123,10 @@
 
 <ConfirmDialog
     open={confirmOpen}
-    title="Delete this client?"
-    description={`Deleting ${confirmingClient?.name ?? 'this client'} also removes every invoice you have raised for them. You cannot undo this.`}
-    confirmLabel="Delete client"
-    cancelLabel="Keep client"
+    title={$_('Delete this client?')}
+    description={$_('Deleting {0} also removes every invoice you have raised for them. You cannot undo this.', { values: { 0: confirmingClient?.name ?? 'this client' } })}
+    confirmLabel={$_('Delete client')}
+    cancelLabel={$_('Keep client')}
     onConfirm={deleteClient}
     onCancel={() => (confirmingClient = null)}
 />
