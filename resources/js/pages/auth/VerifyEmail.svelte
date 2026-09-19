@@ -1,8 +1,9 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     export const layout = {
-        title: 'Email verification',
-        description:
-            'Please verify your email address by clicking on the link we just emailed to you.',
+        get title() { return get(_)('Email verification'); },
+        get description() { return get(_)('Please verify your email address by clicking on the link we just emailed to you.'); },
     };
 </script>
 
@@ -22,12 +23,11 @@
     } = $props();
 </script>
 
-<AppHead title="Email verification" />
+<AppHead title={$_('Email verification')} />
 
 {#if status === 'verification-link-sent'}
     <div class="mb-4 text-center text-sm font-medium text-green-600">
-        A new verification link has been sent to the email address you provided
-        during registration.
+        {$_('A new verification link has been sent to the email address you provided during registration.')}
     </div>
 {/if}
 
@@ -39,7 +39,7 @@
         </Button>
 
         <TextLink href={logout()} as="button" class="mx-auto block text-sm">
-            Log out
+            {$_('Log out')}
         </TextLink>
     {/snippet}
 </Form>

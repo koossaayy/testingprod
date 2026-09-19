@@ -5,6 +5,7 @@
     import LayoutGrid from '@lucide/svelte/icons/layout-grid';
     import Menu from '@lucide/svelte/icons/menu';
     import Search from '@lucide/svelte/icons/search';
+    import { _ } from 'svelte-i18n';
     import AppLogo from '@/components/AppLogo.svelte';
     import AppLogoIcon from '@/components/AppLogoIcon.svelte';
     import Breadcrumbs from '@/components/Breadcrumbs.svelte';
@@ -59,7 +60,7 @@
 
     const mainNavItems: NavItem[] = [
         {
-            title: 'Dashboard',
+            title: $_('Dashboard'),
             href: dashboard(),
             icon: LayoutGrid,
         },
@@ -67,12 +68,12 @@
 
     const rightNavItems: NavItem[] = [
         {
-            title: 'Repository',
+            title: $_('Repository'),
             href: 'https://github.com/laravel/svelte-starter-kit',
             icon: Folder,
         },
         {
-            title: 'Documentation',
+            title: $_('Documentation'),
             href: 'https://laravel.com/docs/starter-kits#svelte',
             icon: BookOpen,
         },
@@ -99,7 +100,7 @@
                         {/snippet}
                     </SheetTrigger>
                     <SheetContent side="left" class="w-[300px] p-6">
-                        <SheetTitle class="sr-only">Navigation menu</SheetTitle>
+                        <SheetTitle class="sr-only">{$_('Navigation menu')}</SheetTitle>
                         <SheetHeader class="flex justify-start text-left">
                             <AppLogoIcon
                                 class="size-6 fill-current text-black dark:text-white"

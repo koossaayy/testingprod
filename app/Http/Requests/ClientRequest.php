@@ -36,15 +36,15 @@ class ClientRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Give this client a name so you can find them later.',
-            'name.max' => 'Client names need to be shorter than 120 characters.',
-            'email.required' => 'We need an email address to send invoices to.',
-            'email.email' => 'That email address does not look quite right.',
-            'currency.size' => 'Use a three letter currency code such as USD or EUR.',
-            'payment_terms_days.required' => 'Tell us how many days this client has to pay.',
-            'payment_terms_days.max' => 'Payment terms longer than 180 days are not supported.',
-            'billing_address.max' => 'The billing address is too long to fit on an invoice.',
-            'notes.max' => 'Keep your notes under 2000 characters.',
+            'name.required' => __('Give this client a name so you can find them later.'),
+            'name.max' => __('Client names need to be shorter than 120 characters.'),
+            'email.required' => __('We need an email address to send invoices to.'),
+            'email.email' => __('That email address does not look quite right.'),
+            'currency.size' => __('Use a three letter currency code such as USD or EUR.'),
+            'payment_terms_days.required' => __('Tell us how many days this client has to pay.'),
+            'payment_terms_days.max' => __('Payment terms longer than 180 days are not supported.'),
+            'billing_address.max' => __('The billing address is too long to fit on an invoice.'),
+            'notes.max' => __('Keep your notes under 2000 characters.'),
         ];
     }
 
@@ -56,9 +56,9 @@ class ClientRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'contact_name' => 'contact person',
-            'company_number' => 'company registration number',
-            'payment_terms_days' => 'payment terms',
+            'contact_name' => __('contact person'),
+            'company_number' => __('company registration number'),
+            'payment_terms_days' => __('payment terms'),
         ];
     }
 }

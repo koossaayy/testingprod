@@ -1,5 +1,6 @@
 import { useHttp } from '@inertiajs/svelte';
 import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
+import i18n from '../i18n-setup';
 
 type TwoFactorAuthState = {
     qrCodeSvg: string | null;
@@ -42,7 +43,7 @@ export function twoFactorAuthState(): TwoFactorAuthStateApi {
 
             state.qrCodeSvg = svg;
         } catch {
-            state.errors = [...state.errors, 'Failed to fetch QR code'];
+            state.errors = [...state.errors, i18n.t('Failed to fetch QR code')];
             state.qrCodeSvg = null;
         }
     };
@@ -55,7 +56,7 @@ export function twoFactorAuthState(): TwoFactorAuthStateApi {
 
             state.manualSetupKey = key;
         } catch {
-            state.errors = [...state.errors, 'Failed to fetch a setup key'];
+            state.errors = [...state.errors, i18n.t('Failed to fetch a setup key')];
             state.manualSetupKey = null;
         }
     };
@@ -83,7 +84,7 @@ export function twoFactorAuthState(): TwoFactorAuthStateApi {
                 recoveryCodes(),
             )) as string[];
         } catch {
-            state.errors = [...state.errors, 'Failed to fetch recovery codes'];
+            state.errors = [...state.errors, i18n.t('Failed to fetch recovery codes')];
             state.recoveryCodesList = [];
         }
     };

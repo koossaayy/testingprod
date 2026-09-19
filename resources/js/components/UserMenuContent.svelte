@@ -2,6 +2,7 @@
     import { Link, router } from '@inertiajs/svelte';
     import LogOut from '@lucide/svelte/icons/log-out';
     import Settings from '@lucide/svelte/icons/settings';
+    import { _ } from 'svelte-i18n';
     import {
         DropdownMenuGroup,
         DropdownMenuItem,
@@ -44,7 +45,7 @@
                 onclick={props.onClick}
             >
                 <Settings class="mr-2 h-4 w-4" />
-                Settings
+                {$_('Settings')}
             </Link>
         {/snippet}
     </DropdownMenuItem>
@@ -60,7 +61,7 @@
             data-test="logout-button"
         >
             <LogOut class="mr-2 h-4 w-4" />
-            Log out
+            {$_('Log out')}
         </Link>
     {/snippet}
 </DropdownMenuItem>

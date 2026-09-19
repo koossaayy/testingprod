@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Form, setLayoutProps } from '@inertiajs/svelte';
+    import { _ } from 'svelte-i18n';
     import AppHead from '@/components/AppHead.svelte';
     import InputError from '@/components/InputError.svelte';
     import { Button } from '@/components/ui/button';
@@ -18,17 +19,17 @@
     const authConfigContent: TwoFactorConfigContent = $derived.by(() => {
         if (showRecoveryInput) {
             return {
-                title: 'Recovery code',
+                title: $_('Recovery code'),
                 description:
-                    'Please confirm access to your account by entering one of your emergency recovery codes.',
+                    $_('Please confirm access to your account by entering one of your emergency recovery codes.'),
                 buttonText: 'login using an authentication code',
             };
         }
 
         return {
-            title: 'Authentication code',
+            title: $_('Authentication code'),
             description:
-                'Enter the authentication code provided by your authenticator application.',
+                $_('Enter the authentication code provided by your authenticator application.'),
             buttonText: 'login using a recovery code',
         };
     });
@@ -47,7 +48,7 @@
     }
 </script>
 
-<AppHead title="Two-factor authentication" />
+<AppHead title={$_('Two-factor authentication')} />
 
 <div class="space-y-6">
     {#if !showRecoveryInput}
@@ -80,10 +81,10 @@
                     <InputError message={errors.code} />
                 </div>
                 <Button type="submit" class="w-full" disabled={processing}
-                    >Continue</Button
+                    >{$_('Continue')}</Button
                 >
                 <div class="text-center text-sm text-muted-foreground">
-                    <span>or you can </span>
+                    <span>{$_('or you can')} </span>
                     <button
                         type="button"
                         class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
@@ -100,16 +101,16 @@
                 <Input
                     name="recovery_code"
                     type="text"
-                    placeholder="Enter recovery code"
+                    placeholder={$_('Enter recovery code')}
                     required
                 />
                 <InputError message={errors.recovery_code} />
                 <Button type="submit" class="w-full" disabled={processing}
-                    >Continue</Button
+                    >{$_('Continue')}</Button
                 >
 
                 <div class="text-center text-sm text-muted-foreground">
-                    <span>or you can </span>
+                    <span>{$_('or you can')} </span>
                     <button
                         type="button"
                         class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"

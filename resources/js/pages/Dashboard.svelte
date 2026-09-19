@@ -1,10 +1,12 @@
 <script module lang="ts">
+    import { get } from 'svelte/store';
+    import { _ } from 'svelte-i18n';
     import { dashboard } from '@/routes';
 
     export const layout = {
         breadcrumbs: [
             {
-                title: 'Dashboard',
+                get title() { return get(_)('Dashboard'); },
                 href: dashboard(),
             },
         ],
@@ -41,34 +43,31 @@
         const hour = new Date().getHours();
 
         if (hour < 12) {
-            return 'Good morning';
+            return $_('Good morning');
         }
 
         if (hour < 18) {
-            return 'Good afternoon';
+            return $_('Good afternoon');
         }
 
-        return 'Good evening';
+        return $_('Good evening');
     }
 
     const overdueHeadline = $derived(
-        metrics.overdue_count === 1
-            ? '1 invoice needs chasing'
-            : `${metrics.overdue_count} invoices need chasing`,
+        $_('{0, plural, one {# invoice needs chasing} other {# invoices need chasing}}', { values: { 0: metrics.overdue_count } }),
     );
 </script>
 
-<AppHead title="Dashboard" />
+<AppHead title={$_('Dashboard')} />
 
 <div class="flex h-full flex-1 flex-col gap-6 overflow-x-auto p-4">
     <header class="flex flex-wrap items-end justify-between gap-4">
         <div>
             <h1 class="text-xl font-semibold tracking-tight">
-                {greeting()}, here is where your money stands
+                {$_('{0}, here is where your money stands', { values: { 0: greeting() } })}
             </h1>
             <p class="text-sm text-muted-foreground">
-                A quick read on what you are owed, what has landed, and who you
-                need to nudge today.
+                {$_('A quick read on what you are owed, what has landed, and who you need to nudge today.')}
             </p>
         </div>
         <Button asChild>
@@ -76,9 +75,9 @@
                 <Link
                     href={toUrl(create())}
                     class={props.class}
-                    title="Start a new invoice from scratch"
+                    title={$_('Start a new invoice from scratch')}
                 >
-                    New invoice
+                    {$_('New invoice')}
                 </Link>
             {/snippet}
         </Button>
@@ -86,34 +85,34 @@
 
     <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard
-            label="Outstanding"
+            label={$_('Outstanding')}
             value={metrics.outstanding_total}
-            hint="Sent and overdue invoices that have not been paid yet."
+            hint={$_('Sent and overdue invoices that have not been paid yet.')}
             icon={Wallet}
         />
         <MetricCard
-            label="Paid this year"
+            label={$_('Paid this year')}
             value={metrics.paid_this_year_total}
-            hint="Everything that has actually landed in your account."
+            hint={$_('Everything that has actually landed in your account.')}
             icon={FileText}
         />
         <MetricCard
-            label="Overdue invoices"
+            label={$_('Overdue invoices')}
             value={metrics.overdue_count}
-            hint="Past the due date and still waiting on payment."
+            hint={$_('Past the due date and still waiting on payment.')}
             icon={CircleAlert}
         />
         <MetricCard
-            label="Active clients"
+            label={$_('Active clients')}
             value={metrics.client_count}
-            hint="Clients you can invoice right now."
+            hint={$_('Clients you can invoice right now.')}
             icon={Users}
         />
     </div>
 
     <section class="flex flex-col gap-3">
         <div class="flex items-center justify-between">
-            <h2 class="text-base font-semibold">Needs your attention</h2>
+            <h2 class="text-base font-semibold">{$_('Needs your attention')}</h2>
             {#if metrics.overdue_count > 0}
                 <span class="text-sm text-destructive">{overdueHeadline}</span>
             {/if}
@@ -121,26 +120,24 @@
 
         {#if overdueInvoices.length === 0}
             <EmptyState
-                title="Nothing is overdue"
-                description="Every invoice you have sent is either paid or still within its payment terms. Enjoy the quiet."
+                title={$_('Nothing is overdue')}
+                description={$_('Every invoice you have sent is either paid or still within its payment terms. Enjoy the quiet.')}
             />
         {:else}
             <InvoiceTable invoices={overdueInvoices} />
             <p class="text-xs text-muted-foreground">
-                Don&apos;t forget to send a short reminder before you escalate.
-                Most late payments are simply an invoice sitting in the wrong
-                inbox.
+                {$_('Don\'t forget to send a short reminder before you escalate. Most late payments are simply an invoice sitting in the wrong inbox.')}
             </p>
         {/if}
     </section>
 
     <section class="flex flex-col gap-3">
         <div class="flex items-center justify-between">
-            <h2 class="text-base font-semibold">Recent invoices</h2>
+            <h2 class="text-base font-semibold">{$_('Recent invoices')}</h2>
             <Button variant="link" size="sm" asChild>
                 {#snippet children(props)}
                     <Link href={toUrl(invoiceIndex())} class={props.class}>
-                        See all invoices
+                        {$_('See all invoices')}
                     </Link>
                 {/snippet}
             </Button>
@@ -148,13 +145,13 @@
 
         {#if recentInvoices.length === 0}
             <EmptyState
-                title="You have not raised an invoice yet"
-                description="Add a client, then send your first invoice. It only takes a minute and you get paid sooner."
+                title={$_('You have not raised an invoice yet')}
+                description={$_('Add a client, then send your first invoice. It only takes a minute and you get paid sooner.')}
             >
                 <Button asChild>
                     {#snippet children(props)}
                         <Link href={toUrl(create())} class={props.class}>
-                            Create your first invoice
+                            {$_('Create your first invoice')}
                         </Link>
                     {/snippet}
                 </Button>
@@ -165,9 +162,7 @@
 
         {#if metrics.draft_count > 0}
             <p class="text-xs text-muted-foreground">
-                You have {metrics.draft_count}
-                {metrics.draft_count === 1 ? 'draft' : 'drafts'} waiting to be sent.
-                Drafts never get paid.
+                {$_('You have {0, plural, one {# draft} other {# drafts}} waiting to be sent. Drafts never get paid.', { values: { 0: metrics.draft_count } })}
             </p>
         {/if}
     </section>
